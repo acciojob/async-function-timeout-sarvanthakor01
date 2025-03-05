@@ -1,36 +1,26 @@
 //your JS code here. If required.
-document.addEventListener('DOMContentLoaded', () => {
-    const textInput = document.getElementById('text');
-    const delayInput = document.getElementById('delay');
-    const button = document.getElementById('btn');
-    const output = document.getElementById('output');
+document.getElementById("btn").addEventListener("click", () => {
+    const textInput = document.getElementById("text").value.trim();
+    const delayInput = parseInt(document.getElementById("delay").value);
+    const outputDiv = document.getElementById("output");
 
-    // Function to introduce a delay using async/await
-    const delayMessage = (message, delay) => {
-        return new Promise((resolve) => {
-            setTimeout(() => resolve(message), delay);
-        });
-    };
+    // Clear previous output
+    outputDiv.innerHTML = "";
 
-    // Event listener for button click
-    button.addEventListener('click', async () => {
-        const message = textInput.value;
-        const delay = parseInt(delayInput.value);
+    // Validation: Ensure inputs are not empty
+    if (!textInput || isNaN(delayInput) || delayInput <= 0) {
+        alert("Please enter valid details.");
+        return;
+    }
 
-        // Validate input
-        if (!message) {
-            output.innerHTML = "Please enter a message.";
-            return;
-        }
+    // Show "Loading..." while waiting
+    outputDiv.textContent = "Loading...";
 
-        if (isNaN(delay) || delay < 0) {
-            output.innerHTML = "Please enter a valid delay in milliseconds.";
-            return;
-        }
-
-        output.innerHTML = "Waiting...";
-
-        const result = await delayMessage(message, delay);
-        output.innerHTML = result;
+    // Create a promise to delay text display
+    new Promise((resolve) => {
+        setTimeout(() => resolve(textInput), delayInput);
+    })
+    .then((result) => {
+        outputDiv.textContent = result; // Display text after delay
     });
 });
