@@ -8,7 +8,7 @@ document.getElementById("btn").addEventListener("click", () => {
     outputDiv.innerHTML = "";
 
     // Validation: Ensure inputs are not empty
-    if (!textInput || isNaN(delayInput) || delayInput <= 0) {
+    if (!textInput || isNaN(delayInput) || delayInput < 0) {
         alert("Please enter valid details.");
         return;
     }
