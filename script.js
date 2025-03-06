@@ -1,26 +1,21 @@
 //your JS code here. If required.
-document.getElementById("btn").addEventListener("click", () => {
-    const textInput = document.getElementById("text").value.trim();
-    const delayInput = parseInt(document.getElementById("delay").value);
-    const outputDiv = document.getElementById("output");
+document.getElementById("btn").addEventListener("click", async function () {
+  const text = document.getElementById("text").value;
+  const delay = document.getElementById("delay").value;
 
-    // Clear previous output
-    outputDiv.innerHTML = "";
+  if (!text.trim() || isNaN(delay) || delay < 0) {
+    alert("Please enter valid text and a positive delay.");
+    return;
+  }
 
-    // Validation: Ensure inputs are not empty
-    if (!textInput || isNaN(delayInput) || delayInput < 0) {
-        alert("Please enter valid details.");
-        return;
-    }
-
-    // Show "Loading..." while waiting
-    outputDiv.textContent = "Loading...";
-
-    // Create a promise to delay text display
-    new Promise((resolve) => {
-        setTimeout(() => resolve(textInput), delayInput);
-    })
-    .then((result) => {
-        outputDiv.textContent = result; // Display text after delay
-    });
+  await delayMessage(text, parseInt(delay));
 });
+
+function delayMessage(message, delay) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      document.getElementById("output").textContent = message;
+      resolve();
+    }, delay);
+  });
+}
